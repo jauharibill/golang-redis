@@ -1,7 +1,8 @@
 package main
 
 import (
-	"github.com/go-playground/assert/v2"
+	"github.com/stretchr/testify/assert"
+	"net/http"
 	"testing"
 )
 
@@ -10,7 +11,11 @@ func TestStore(t *testing.T) {
 }
 
 func TestIndex(t *testing.T) {
-	assert.Equal(t, true, true)
+	req, rec := request(http.MethodGet, "/", nil)
+	Index(rec, req)
+	resp := rec.Result()
+
+	assert.Equal(t, http.StatusConflict, resp.StatusCode)
 }
 
 func TestUpdate(t *testing.T) {

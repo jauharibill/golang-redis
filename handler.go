@@ -38,18 +38,23 @@ func Store(writer http.ResponseWriter, request *http.Request) {
 	red := Conn()
 	red.Set(context.Background(), "name", user.Name, 0).Err()
 
-	log.Info().Msg(fmt.Sprintf("redis key set name with value %s", user.Name))
+	// HMSET
+	red.HMSet(context.Background(), "user:123", "name", "bill", "age", 26)
+	red.HMSet(context.Background(), "user:125", "name", "tanthowi", "age", 27)
+	red.HMSet(context.Background(), "user:124", "name", "jauhari", "age", 28)
+
+	// HMGET
+	user123, _ := red.HMGet(context.Background(), "user:123", "name", "age").Result()
+	user124, _ := red.HMGet(context.Background(), "user:124", "name", "age").Result()
+	user125, _ := red.HMGet(context.Background(), "user:125", "name", "age").Result()
+
+	// OUTPUT REDIS
+	log.Info().Msg(fmt.Sprintf("my name is %s, I am %d years old", user123[0].(string), StrToInt(user123[1].(string))))
+	log.Info().Msg(fmt.Sprintf("my name is %s, I am %d years old", user124[0].(string), StrToInt(user124[1].(string))))
+	log.Info().Msg(fmt.Sprintf("my name is %s, I am %d years old", user125[0].(string), StrToInt(user125[1].(string))))
 
 	response.Data = user
 	response.Message = "Success Storing Data"
-
-	currentName, err := red.Get(context.Background(), "name").Result()
-
-	if err != nil {
-		log.Err(err)
-	}
-
-	log.Info().Msg(fmt.Sprintf("redis key get name is %s", currentName))
 
 	res, _ := json.Marshal(response)
 
