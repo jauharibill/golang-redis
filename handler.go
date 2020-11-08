@@ -1,8 +1,10 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/rs/zerolog/log"
 	"net/http"
 )
 
@@ -33,8 +35,21 @@ func Store(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
+	red := Conn()
+	red.Set(context.Background(), "name", user.Name, 0).Err()
+
+	log.Info().Msg(fmt.Sprintf("redis key set name with value %s", user.Name))
+
 	response.Data = user
 	response.Message = "Success Storing Data"
+
+	currentName, err := red.Get(context.Background(), "name").Result()
+
+	if err != nil {
+		log.Err(err)
+	}
+
+	log.Info().Msg(fmt.Sprintf("redis key get name is %s", currentName))
 
 	res, _ := json.Marshal(response)
 
