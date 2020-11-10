@@ -1,10 +1,15 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+)
 
 func Router() {
-	http.HandleFunc("/", Index)
-	http.HandleFunc("/store", Store)
-	http.HandleFunc("/update", Update)
-	http.HandleFunc("/delete", Delete)
+	handler := NewHandler(Conn())
+
+	http.HandleFunc("/", handler.Index)
+	http.HandleFunc("/store", handler.Store)
+	http.HandleFunc("/update", handler.Update)
+	http.HandleFunc("/delete", handler.Delete)
+	http.HandleFunc("/show", handler.Show)
 }
