@@ -8,29 +8,15 @@ import (
 	"net/http"
 )
 
-type UserHandler struct {
+type Controller struct {
 	Redis *redis.Client
 }
 
-func NewHandler(red *redis.Client) UserHandler {
-	return UserHandler{Redis: red}
+func InitController(red *redis.Client) Controller {
+	return Controller{Redis: red}
 }
 
-// LISTING DATA
-func (_r *UserHandler) Index(writer http.ResponseWriter, request *http.Request) {
-	var response Response
-
-	response.Message = fmt.Sprintf("Success get Data")
-	response.Data = nil
-
-	out, _ := json.Marshal(response)
-
-	writer.Write(out)
-	writer.WriteHeader(http.StatusOK)
-	return
-}
-
-func (_r *UserHandler) Show(writer http.ResponseWriter, request *http.Request) {
+func (_r *Controller) Show(writer http.ResponseWriter, request *http.Request) {
 	var response Response
 	var user User
 
@@ -63,13 +49,13 @@ func (_r *UserHandler) Show(writer http.ResponseWriter, request *http.Request) {
 
 	out, _ := json.Marshal(response)
 
-	writer.Write(out)
 	writer.WriteHeader(http.StatusOK)
+	writer.Write(out)
 	return
 }
 
 // STORE DATA
-func (_r *UserHandler) Store(writer http.ResponseWriter, request *http.Request) {
+func (_r *Controller) Store(writer http.ResponseWriter, request *http.Request) {
 	var user User
 	var response Response
 
@@ -89,13 +75,13 @@ func (_r *UserHandler) Store(writer http.ResponseWriter, request *http.Request) 
 
 	res, _ := json.Marshal(response)
 
-	writer.Write(res)
 	writer.WriteHeader(http.StatusCreated)
+	writer.Write(res)
 	return
 }
 
 // UPDATE DATA
-func (_r *UserHandler) Update(writer http.ResponseWriter, request *http.Request) {
+func (_r *Controller) Update(writer http.ResponseWriter, request *http.Request) {
 	var user User
 	var response Response
 
@@ -115,12 +101,13 @@ func (_r *UserHandler) Update(writer http.ResponseWriter, request *http.Request)
 
 	res, _ := json.Marshal(response)
 
+	writer.WriteHeader(http.StatusOK)
 	writer.Write(res)
 	return
 }
 
 // DELETE DATA
-func (_r *UserHandler) Delete(writer http.ResponseWriter, request *http.Request) {
+func (_r *Controller) Delete(writer http.ResponseWriter, request *http.Request) {
 	var response Response
 
 	ID := request.URL.Query().Get("id")
@@ -134,6 +121,7 @@ func (_r *UserHandler) Delete(writer http.ResponseWriter, request *http.Request)
 
 	res, _ := json.Marshal(response)
 
+	writer.WriteHeader(http.StatusOK)
 	writer.Write(res)
 	return
 }
