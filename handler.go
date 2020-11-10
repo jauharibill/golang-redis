@@ -27,19 +27,38 @@ func (_r *UserHandler) Index(writer http.ResponseWriter, request *http.Request) 
 
 	writer.Write(out)
 	writer.WriteHeader(http.StatusOK)
+	return
 }
 
 func (_r *UserHandler) Show(writer http.ResponseWriter, request *http.Request) {
 	var response Response
 	var user User
 
-	//ID := request.URL.Query().Get("id")
+	ID := fmt.Sprintf("user:%s", request.URL.Query().Get("id"))
 
-	data, _ := _r.Redis.HMGet(context.Background(), "user:123", "ID", "name", "age").Result()
+	data, errGetData := _r.Redis.HMGet(context.Background(), ID, "name", "age").Result()
 
-	user.ID = StrToInt(data[0].(string))
-	user.Name = data[1].(string)
-	user.Age = StrToInt(data[2].(string))
+	fmt.Println(data)
+
+	if errGetData != nil {
+		response.Message = errGetData.Error()
+		out, _ := json.Marshal(response)
+		writer.Write(out)
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if data[0] == nil {
+		response.Message = "Data not found"
+		out, _ := json.Marshal(response)
+
+		writer.Write(out)
+		writer.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	user.Name = data[0].(string)
+	user.Age = StrToInt(data[1].(string))
 
 	response.Data = user
 	response.Message = "Success Show Data"
@@ -48,6 +67,7 @@ func (_r *UserHandler) Show(writer http.ResponseWriter, request *http.Request) {
 
 	writer.Write(out)
 	writer.WriteHeader(http.StatusOK)
+	return
 }
 
 // STORE DATA
@@ -62,17 +82,18 @@ func (_r *UserHandler) Store(writer http.ResponseWriter, request *http.Request) 
 		return
 	}
 
-	fmt.Println(fmt.Sprintf("user:%s", IntToStr(user.ID)))
+	ID := fmt.Sprintf("user:%s", IntToStr(user.ID))
 
-	_r.Redis.HSet(context.Background(), "user:123", "name", "bill", "age", 25)
+	_r.Redis.HSet(context.Background(), ID, "name", user.Name, "age", user.Age)
 
-	response.Data = user
+	response.Data = nil
 	response.Message = "Success Storing Data"
 
 	res, _ := json.Marshal(response)
 
 	writer.Write(res)
 	writer.WriteHeader(http.StatusCreated)
+	return
 }
 
 // UPDATE DATA
