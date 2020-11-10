@@ -22,3 +22,7 @@ func StrToInt(param string) int {
 
 	return result
 }
+
+func IntToStr(param int) string {
+	return strconv.Itoa(param)
+}
