@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="6cd9b9f4-89ed-41dc-9887-7091eef23310" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/data.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -118,7 +117,8 @@
     <MESSAGE value="add http test" />
     <MESSAGE value="multiple set field and value redis" />
     <MESSAGE value="store multiple data into redis" />
-    <option name="LAST_COMMIT_MESSAGE" value="store multiple data into redis" />
+    <MESSAGE value="success show store and show data from redis" />
+    <option name="LAST_COMMIT_MESSAGE" value="success show store and show data from redis" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -132,26 +132,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="92" y="92" width="1736" height="856" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1604842398317" />
-    <state x="585" y="88" key="CommitChangelistDialog2" timestamp="1604982033191">
+    <state x="585" y="88" key="CommitChangelistDialog2" timestamp="1604994406829">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="585" y="88" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1604982033191" />
-    <state width="1877" height="266" key="GridCell.Tab.0.bottom" timestamp="1604994371294">
+    <state x="585" y="88" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1604994406829" />
+    <state width="1877" height="266" key="GridCell.Tab.0.bottom" timestamp="1605016788383">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="266" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1604994371294" />
-    <state width="1877" height="266" key="GridCell.Tab.0.center" timestamp="1604994371294">
+    <state width="1877" height="266" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1605016788383" />
+    <state width="1877" height="266" key="GridCell.Tab.0.center" timestamp="1605016788383">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="266" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1604994371294" />
-    <state width="1877" height="266" key="GridCell.Tab.0.left" timestamp="1604994371294">
+    <state width="1877" height="266" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1605016788383" />
+    <state width="1877" height="266" key="GridCell.Tab.0.left" timestamp="1605016788383">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="266" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1604994371294" />
-    <state width="1877" height="266" key="GridCell.Tab.0.right" timestamp="1604994371294">
+    <state width="1877" height="266" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1605016788383" />
+    <state width="1877" height="266" key="GridCell.Tab.0.right" timestamp="1605016788383">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="266" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1604994371294" />
+    <state width="1877" height="266" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1605016788383" />
     <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1604848954350">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -168,10 +168,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1604848954350" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1604982041263">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1604994409621">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1604982041263" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1604994409621" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1604833084356">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

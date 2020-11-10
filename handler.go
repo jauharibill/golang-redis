@@ -38,8 +38,6 @@ func (_r *UserHandler) Show(writer http.ResponseWriter, request *http.Request) {
 
 	data, errGetData := _r.Redis.HMGet(context.Background(), ID, "name", "age").Result()
 
-	fmt.Println(data)
-
 	if errGetData != nil {
 		response.Message = errGetData.Error()
 		out, _ := json.Marshal(response)
@@ -108,12 +106,17 @@ func (_r *UserHandler) Update(writer http.ResponseWriter, request *http.Request)
 		http.Error(writer, err.Error(), http.StatusBadRequest)
 	}
 
-	response.Message = fmt.Sprintf("Success update data %s", ID)
-	response.Data = user
+	key := fmt.Sprintf("user:%s", ID)
+
+	_r.Redis.HSet(context.Background(), key, "name", user.Name, "age", user.Age)
+
+	response.Message = "Success update data"
+	response.Data = nil
 
 	res, _ := json.Marshal(response)
 
 	writer.Write(res)
+	return
 }
 
 // DELETE DATA
@@ -122,10 +125,15 @@ func (_r *UserHandler) Delete(writer http.ResponseWriter, request *http.Request)
 
 	ID := request.URL.Query().Get("id")
 
-	response.Message = fmt.Sprintf("Success Delete Data %s", ID)
+	key := fmt.Sprintf("user:%s", ID)
+
+	_r.Redis.HDel(context.Background(), key, "name", "age")
+
+	response.Message = "Success Delete Data"
 	response.Data = nil
 
 	res, _ := json.Marshal(response)
 
 	writer.Write(res)
+	return
 }
