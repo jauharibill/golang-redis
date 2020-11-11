@@ -1,11 +1,15 @@
-package main
+package controllers
 
 import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/beinan/fastid"
 	"github.com/go-redis/redis/v8"
 	"github.com/vmihailenco/treemux"
+	"golang-redis/models"
+	"golang-redis/presenter"
+	"golang-redis/utilities"
 	"net/http"
 )
 
@@ -19,12 +23,12 @@ func InitController(red *redis.Client) Controller {
 
 // SHOW DATA
 func (_r *Controller) Show(writer http.ResponseWriter, request treemux.Request) error {
-	var response Response
-	var user User
+	var response presenter.Response
+	var user models.UserModel
 
-	ID := fmt.Sprintf("user:%s", request.URL.Query().Get("id"))
+	ID := fmt.Sprintf("user:%s", request.Param("id"))
 
-	data, errGetData := _r.Redis.HMGet(context.Background(), ID, "ID", "name", "age").Result()
+	data, errGetData := _r.Redis.HMGet(context.Background(), ID, "id", "email", "username", "password", "role_id").Result()
 
 	if errGetData != nil {
 		response.Message = errGetData.Error()
@@ -36,9 +40,11 @@ func (_r *Controller) Show(writer http.ResponseWriter, request treemux.Request) 
 		return treemux.JSON(writer, response)
 	}
 
-	user.ID = StrToInt(data[0].(string))
-	user.Name = data[1].(string)
-	user.Age = StrToInt(data[2].(string))
+	user.ID = int64(utilities.StrToInt(data[0].(string)))
+	user.Email = data[1].(string)
+	user.Username = data[2].(string)
+	user.Password = data[3].(string)
+	user.RoleID = utilities.StrToInt(data[3].(string))
 
 	response.Data = user
 	response.Message = "Success Show Data"
@@ -48,8 +54,10 @@ func (_r *Controller) Show(writer http.ResponseWriter, request treemux.Request) 
 
 // STORE DATA
 func (_r *Controller) Store(writer http.ResponseWriter, request treemux.Request) error {
-	var user User
-	var response Response
+	var user models.UserModel
+	var response presenter.Response
+
+	IDs := fastid.CommonConfig.GenInt64ID()
 
 	err := json.NewDecoder(request.Body).Decode(&user)
 
@@ -58,11 +66,13 @@ func (_r *Controller) Store(writer http.ResponseWriter, request treemux.Request)
 		return treemux.JSON(writer, response)
 	}
 
-	ID := fmt.Sprintf("user:%s", IntToStr(user.ID))
+	ID := fmt.Sprintf("user:%s", utilities.IntToStr(int(IDs)))
 
-	_r.Redis.HSet(context.Background(), ID, "ID", user.ID, "name", user.Name, "age", user.Age)
+	_r.Redis.HSet(context.Background(), ID, "id", IDs, "email", user.Email, "username", user.Username, "password", user.Password, "role_id", user.RoleID)
 
-	response.Data = nil
+	user.ID = IDs
+
+	response.Data = user
 	response.Message = "Success Storing Data"
 
 	return treemux.JSON(writer, response)
@@ -70,11 +80,11 @@ func (_r *Controller) Store(writer http.ResponseWriter, request treemux.Request)
 
 // UPDATE DATA
 func (_r *Controller) Update(writer http.ResponseWriter, request treemux.Request) error {
-	var user User
-	var response Response
+	var user models.UserModel
+	var response presenter.Response
 
 	err := json.NewDecoder(request.Body).Decode(&user)
-	ID := request.URL.Query().Get("id")
+	ID := request.Param("id")
 
 	if err != nil {
 		response.Message = err.Error()
@@ -83,7 +93,7 @@ func (_r *Controller) Update(writer http.ResponseWriter, request treemux.Request
 
 	key := fmt.Sprintf("user:%s", ID)
 
-	_r.Redis.HSet(context.Background(), key, "ID", ID, "name", user.Name, "age", user.Age)
+	_r.Redis.HSet(context.Background(), key, "id", ID, "email", user.Email, "username", user.Username, "password", user.Password, "role_id", user.RoleID)
 
 	response.Message = "Success update data"
 	response.Data = nil
@@ -93,13 +103,13 @@ func (_r *Controller) Update(writer http.ResponseWriter, request treemux.Request
 
 // DELETE DATA
 func (_r *Controller) Delete(writer http.ResponseWriter, request treemux.Request) error {
-	var response Response
+	var response presenter.Response
 
-	ID := request.URL.Query().Get("id")
+	ID := request.Param("id")
 
 	key := fmt.Sprintf("user:%s", ID)
 
-	_r.Redis.HDel(context.Background(), key, "ID", "name", "age")
+	_r.Redis.HDel(context.Background(), key, "id", "email", "username", "password", "role_id")
 
 	response.Message = "Success Delete Data"
 	response.Data = nil
