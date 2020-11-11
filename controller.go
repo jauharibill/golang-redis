@@ -8,35 +8,22 @@ import (
 	"net/http"
 )
 
-type UserHandler struct {
+type Controller struct {
 	Redis *redis.Client
 }
 
-func NewHandler(red *redis.Client) UserHandler {
-	return UserHandler{Redis: red}
+func InitController(red *redis.Client) Controller {
+	return Controller{Redis: red}
 }
 
-// LISTING DATA
-func (_r *UserHandler) Index(writer http.ResponseWriter, request *http.Request) {
-	var response Response
-
-	response.Message = fmt.Sprintf("Success get Data")
-	response.Data = nil
-
-	out, _ := json.Marshal(response)
-
-	writer.Write(out)
-	writer.WriteHeader(http.StatusOK)
-	return
-}
-
-func (_r *UserHandler) Show(writer http.ResponseWriter, request *http.Request) {
+// SHOW DATA
+func (_r *Controller) Show(writer http.ResponseWriter, request *http.Request) {
 	var response Response
 	var user User
 
 	ID := fmt.Sprintf("user:%s", request.URL.Query().Get("id"))
 
-	data, errGetData := _r.Redis.HMGet(context.Background(), ID, "name", "age").Result()
+	data, errGetData := _r.Redis.HMGet(context.Background(), ID, "ID", "name", "age").Result()
 
 	if errGetData != nil {
 		response.Message = errGetData.Error()
@@ -55,21 +42,22 @@ func (_r *UserHandler) Show(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	user.Name = data[0].(string)
-	user.Age = StrToInt(data[1].(string))
+	user.ID = StrToInt(data[0].(string))
+	user.Name = data[1].(string)
+	user.Age = StrToInt(data[2].(string))
 
 	response.Data = user
 	response.Message = "Success Show Data"
 
 	out, _ := json.Marshal(response)
 
-	writer.Write(out)
 	writer.WriteHeader(http.StatusOK)
+	writer.Write(out)
 	return
 }
 
 // STORE DATA
-func (_r *UserHandler) Store(writer http.ResponseWriter, request *http.Request) {
+func (_r *Controller) Store(writer http.ResponseWriter, request *http.Request) {
 	var user User
 	var response Response
 
@@ -82,20 +70,20 @@ func (_r *UserHandler) Store(writer http.ResponseWriter, request *http.Request) 
 
 	ID := fmt.Sprintf("user:%s", IntToStr(user.ID))
 
-	_r.Redis.HSet(context.Background(), ID, "name", user.Name, "age", user.Age)
+	_r.Redis.HSet(context.Background(), ID, "ID", user.ID, "name", user.Name, "age", user.Age)
 
 	response.Data = nil
 	response.Message = "Success Storing Data"
 
 	res, _ := json.Marshal(response)
 
-	writer.Write(res)
 	writer.WriteHeader(http.StatusCreated)
+	writer.Write(res)
 	return
 }
 
 // UPDATE DATA
-func (_r *UserHandler) Update(writer http.ResponseWriter, request *http.Request) {
+func (_r *Controller) Update(writer http.ResponseWriter, request *http.Request) {
 	var user User
 	var response Response
 
@@ -108,32 +96,34 @@ func (_r *UserHandler) Update(writer http.ResponseWriter, request *http.Request)
 
 	key := fmt.Sprintf("user:%s", ID)
 
-	_r.Redis.HSet(context.Background(), key, "name", user.Name, "age", user.Age)
+	_r.Redis.HSet(context.Background(), key, "ID", ID, "name", user.Name, "age", user.Age)
 
 	response.Message = "Success update data"
 	response.Data = nil
 
 	res, _ := json.Marshal(response)
 
+	writer.WriteHeader(http.StatusOK)
 	writer.Write(res)
 	return
 }
 
 // DELETE DATA
-func (_r *UserHandler) Delete(writer http.ResponseWriter, request *http.Request) {
+func (_r *Controller) Delete(writer http.ResponseWriter, request *http.Request) {
 	var response Response
 
 	ID := request.URL.Query().Get("id")
 
 	key := fmt.Sprintf("user:%s", ID)
 
-	_r.Redis.HDel(context.Background(), key, "name", "age")
+	_r.Redis.HDel(context.Background(), key, "ID", "name", "age")
 
 	response.Message = "Success Delete Data"
 	response.Data = nil
 
 	res, _ := json.Marshal(response)
 
+	writer.WriteHeader(http.StatusOK)
 	writer.Write(res)
 	return
 }
