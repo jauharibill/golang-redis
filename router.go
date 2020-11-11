@@ -1,14 +1,19 @@
 package main
 
 import (
-	"net/http"
+	"github.com/vmihailenco/treemux"
+	"golang-redis/controllers"
 )
 
-func Router() {
-	handler := InitController(Conn())
+func Router() *treemux.TreeMux {
+	handler := controllers.InitController(Conn())
+	router := treemux.New()
 
-	http.HandleFunc("/store", handler.Store)
-	http.HandleFunc("/update", handler.Update)
-	http.HandleFunc("/delete", handler.Delete)
-	http.HandleFunc("/show", handler.Show)
+	v1 := router.NewGroup("/api/v1")
+	v1.GET("/show/:id", handler.Show)
+	v1.POST("/store", handler.Store)
+	v1.PUT("/update/:id", handler.Update)
+	v1.DELETE("/delete/:id", handler.Delete)
+
+	return router
 }

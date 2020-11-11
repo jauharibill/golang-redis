@@ -1,5 +1,6 @@
 {
-  "id": 124,
-  "name": "BILL TANTHOWI JAUHARI",
-  "age": 26
+  "email": "bill.tanthowi.j@gmail.com",
+  "username": "billtanthowi",
+  "password": "tanthowi",
+  "role_id": 1
 }

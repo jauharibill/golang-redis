@@ -13,9 +13,8 @@ var airbrake = gobrake.NewNotifierWithOptions(&gobrake.NotifierOptions{
 })
 
 func main() {
-	Router()
 	defer airbrake.Close()
 	defer airbrake.NotifyOnPanic()
 	log.Println("listen on port 8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8080", Router()))
 }
