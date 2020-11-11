@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-redis/redis/v8"
+	"github.com/vmihailenco/treemux"
 	"net/http"
 )
 
@@ -17,7 +18,7 @@ func InitController(red *redis.Client) Controller {
 }
 
 // SHOW DATA
-func (_r *Controller) Show(writer http.ResponseWriter, request *http.Request) {
+func (_r *Controller) Show(writer http.ResponseWriter, request treemux.Request) error {
 	var response Response
 	var user User
 
@@ -27,19 +28,12 @@ func (_r *Controller) Show(writer http.ResponseWriter, request *http.Request) {
 
 	if errGetData != nil {
 		response.Message = errGetData.Error()
-		out, _ := json.Marshal(response)
-		writer.Write(out)
-		writer.WriteHeader(http.StatusBadRequest)
-		return
+		return treemux.JSON(writer, response)
 	}
 
 	if data[0] == nil {
 		response.Message = "Data not found"
-		out, _ := json.Marshal(response)
-
-		writer.Write(out)
-		writer.WriteHeader(http.StatusNotFound)
-		return
+		return treemux.JSON(writer, response)
 	}
 
 	user.ID = StrToInt(data[0].(string))
@@ -49,23 +43,19 @@ func (_r *Controller) Show(writer http.ResponseWriter, request *http.Request) {
 	response.Data = user
 	response.Message = "Success Show Data"
 
-	out, _ := json.Marshal(response)
-
-	writer.WriteHeader(http.StatusOK)
-	writer.Write(out)
-	return
+	return treemux.JSON(writer, response)
 }
 
 // STORE DATA
-func (_r *Controller) Store(writer http.ResponseWriter, request *http.Request) {
+func (_r *Controller) Store(writer http.ResponseWriter, request treemux.Request) error {
 	var user User
 	var response Response
 
 	err := json.NewDecoder(request.Body).Decode(&user)
 
 	if err != nil {
-		http.Error(writer, err.Error(), http.StatusBadRequest)
-		return
+		response.Message = err.Error()
+		return treemux.JSON(writer, response)
 	}
 
 	ID := fmt.Sprintf("user:%s", IntToStr(user.ID))
@@ -75,15 +65,11 @@ func (_r *Controller) Store(writer http.ResponseWriter, request *http.Request) {
 	response.Data = nil
 	response.Message = "Success Storing Data"
 
-	res, _ := json.Marshal(response)
-
-	writer.WriteHeader(http.StatusCreated)
-	writer.Write(res)
-	return
+	return treemux.JSON(writer, response)
 }
 
 // UPDATE DATA
-func (_r *Controller) Update(writer http.ResponseWriter, request *http.Request) {
+func (_r *Controller) Update(writer http.ResponseWriter, request treemux.Request) error {
 	var user User
 	var response Response
 
@@ -91,7 +77,8 @@ func (_r *Controller) Update(writer http.ResponseWriter, request *http.Request) 
 	ID := request.URL.Query().Get("id")
 
 	if err != nil {
-		http.Error(writer, err.Error(), http.StatusBadRequest)
+		response.Message = err.Error()
+		treemux.JSON(writer, response)
 	}
 
 	key := fmt.Sprintf("user:%s", ID)
@@ -101,15 +88,11 @@ func (_r *Controller) Update(writer http.ResponseWriter, request *http.Request) 
 	response.Message = "Success update data"
 	response.Data = nil
 
-	res, _ := json.Marshal(response)
-
-	writer.WriteHeader(http.StatusOK)
-	writer.Write(res)
-	return
+	return treemux.JSON(writer, response)
 }
 
 // DELETE DATA
-func (_r *Controller) Delete(writer http.ResponseWriter, request *http.Request) {
+func (_r *Controller) Delete(writer http.ResponseWriter, request treemux.Request) error {
 	var response Response
 
 	ID := request.URL.Query().Get("id")
@@ -121,9 +104,5 @@ func (_r *Controller) Delete(writer http.ResponseWriter, request *http.Request) 
 	response.Message = "Success Delete Data"
 	response.Data = nil
 
-	res, _ := json.Marshal(response)
-
-	writer.WriteHeader(http.StatusOK)
-	writer.Write(res)
-	return
+	return treemux.JSON(writer, response)
 }
