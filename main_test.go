@@ -24,7 +24,7 @@ func TestStore(t *testing.T) {
 
 	user.ID = IDs
 	user.Username = "Tanthowi"
-	user.Email = "bill.tanthowi.j@gmail.com"
+	user.Email = "bill.tj@icloud.com"
 	user.Password = "tanthowi"
 	user.RoleID = 1
 
