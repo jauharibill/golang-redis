@@ -2,19 +2,23 @@ package utilities
 
 import (
 	_ "github.com/stretchr/testify/assert"
+	"github.com/vmihailenco/treemux"
 	"io"
-	"net/http"
 	_ "net/http"
 	"net/http/httptest"
 	"strconv"
 )
 
-func request(method string, url string, payload io.Reader) (*http.Request, *httptest.ResponseRecorder) {
+func Request(method string, url string, payload io.Reader) (treemux.Request, *httptest.ResponseRecorder) {
+	var request treemux.Request
+
 	req := httptest.NewRequest(method, url, payload)
 	req.Header.Set("Content-type", "application/json")
 	rec := httptest.NewRecorder()
 
-	return req, rec
+	request.Request = req
+
+	return request, rec
 }
 
 func StrToInt(param string) int {

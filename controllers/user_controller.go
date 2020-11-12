@@ -66,15 +66,19 @@ func (_r *Controller) Store(writer http.ResponseWriter, request treemux.Request)
 		return treemux.JSON(writer, response)
 	}
 
-	ID := fmt.Sprintf("user:%s", utilities.IntToStr(int(IDs)))
+	ID := fmt.Sprintf("user:%s", utilities.IntToStr(int(user.ID)))
+
+	if user.ID == 0 {
+		ID = fmt.Sprintf("user:%s", utilities.IntToStr(int(IDs)))
+		user.ID = IDs
+	}
 
 	_r.Redis.HSet(context.Background(), ID, "id", IDs, "email", user.Email, "username", user.Username, "password", user.Password, "role_id", user.RoleID)
-
-	user.ID = IDs
 
 	response.Data = user
 	response.Message = "Success Storing Data"
 
+	writer.WriteHeader(http.StatusCreated)
 	return treemux.JSON(writer, response)
 }
 

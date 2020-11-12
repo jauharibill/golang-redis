@@ -1,21 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6cd9b9f4-89ed-41dc-9887-7091eef23310" name="Default Changelist" comment="add treemux http router">
-      <change afterPath="$PROJECT_DIR$/models/profile_model.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/role_model.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/user_model.go" afterDir="false" />
+    <list default="true" id="6cd9b9f4-89ed-41dc-9887-7091eef23310" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/user_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/data.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/main_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/presenter.go" beforeDir="false" afterPath="$PROJECT_DIR$/presenter/response.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/typecasting.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +55,7 @@
       <recent name="C:\Users\jauharibill\go\src\golang-redis\controllers" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build golang-redis">
+  <component name="RunManager" selected="Go Test.TestStore in golang-redis">
     <configuration name="go build golang-redis" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="golang-redis" />
       <working_directory value="$PROJECT_DIR$" />
@@ -86,6 +74,17 @@
       <filePath value="$PROJECT_DIR$" />
       <package value="golang-redis" />
       <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestStore in golang-redis" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="golang-redis" />
+      <working_directory value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="golang-redis" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestStore\E$" />
       <method v="2" />
     </configuration>
     <configuration name="go test golang-redis" type="GoTestRunConfiguration" factoryName="Go Test" nameIsGenerated="true">
@@ -112,7 +111,13 @@
     <list>
       <item itemvalue="Go Build.go build golang-redis" />
       <item itemvalue="Go Test.go test golang-redis" />
+      <item itemvalue="Go Test.TestStore in golang-redis" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Test.TestStore in golang-redis" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,7 +135,9 @@
     <MESSAGE value="set ID field" />
     <MESSAGE value="add airbrake issue tracker" />
     <MESSAGE value="add treemux http router" />
-    <option name="LAST_COMMIT_MESSAGE" value="add treemux http router" />
+    <MESSAGE value="add registration user" />
+    <MESSAGE value="repair feature test" />
+    <option name="LAST_COMMIT_MESSAGE" value="repair feature test" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -144,26 +151,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="92" y="92" width="1736" height="856" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1605018189197" />
-    <state x="585" y="88" key="CommitChangelistDialog2" timestamp="1605099447792">
+    <state x="585" y="88" key="CommitChangelistDialog2" timestamp="1605139253854">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="585" y="88" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1605099447792" />
-    <state width="1877" height="250" key="GridCell.Tab.0.bottom" timestamp="1605100480336">
+    <state x="585" y="88" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1605139253854" />
+    <state width="1877" height="292" key="GridCell.Tab.0.bottom" timestamp="1605139430999">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="250" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1605100480336" />
-    <state width="1877" height="250" key="GridCell.Tab.0.center" timestamp="1605100480335">
+    <state width="1877" height="292" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1605139430999" />
+    <state width="1877" height="292" key="GridCell.Tab.0.center" timestamp="1605139430999">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="250" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1605100480335" />
-    <state width="1877" height="250" key="GridCell.Tab.0.left" timestamp="1605100480335">
+    <state width="1877" height="292" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1605139430999" />
+    <state width="1877" height="292" key="GridCell.Tab.0.left" timestamp="1605139430998">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="250" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1605100480335" />
-    <state width="1877" height="250" key="GridCell.Tab.0.right" timestamp="1605100480336">
+    <state width="1877" height="292" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1605139430998" />
+    <state width="1877" height="292" key="GridCell.Tab.0.right" timestamp="1605139430999">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="250" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1605100480336" />
+    <state width="1877" height="292" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1605139430999" />
     <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1604848954350">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -180,10 +187,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1604848954350" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1605097583863">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1605139260356">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1605097583863" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1605139260356" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1604833084356">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
